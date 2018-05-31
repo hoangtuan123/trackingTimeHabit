@@ -10,6 +10,9 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { environment } from '../environments/environment';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HabitListComponent } from './habit-list/habit-list.component';
+import { AuthService } from './shared/service/auth.service';
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -21,9 +24,10 @@ import { HabitListComponent } from './habit-list/habit-list.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    FormsModule,
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
