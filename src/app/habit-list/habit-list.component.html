@@ -1,4 +1,8 @@
-<!--The content below is only a placeholder and can be replaced.-->
+<div *ngIf="authService.user | async as user">
+  {{ user.displayName }}
+</div>
+
+
 <div class="col-12 d-flex justify-content-center">
     <form>
         <div class="form-contol mt-3 align-center">
@@ -8,7 +12,7 @@
         </div>
         <div class="form-check" *ngFor="let habit of habitList">
             <label class="form-check-label">
-                <input class="form-check-input" [checked]="habit.checked" (change)="onChangeModel(habit)"  type="checkbox"> {{ habit.value }}
+                <input class="form-check-input" [checked]="habit.checked" (change)="onChangeModel(habit)" type="checkbox"> {{ habit.value }}
             </label>
         </div>
     </form>

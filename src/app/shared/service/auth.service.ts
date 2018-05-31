@@ -7,42 +7,42 @@ import * as firebase from 'firebase/app';
 
 @Injectable()
 export class AuthService {
-  user: Observable<firebase.User>;
+  private user: Observable<firebase.User>;
   private userDetails: firebase.User = null;
 
-  constructor(private firebaseAuth: AngularFireAuth
+  constructor(public firebaseAuth: AngularFireAuth
+    , private router: Router
   ) {
     this.user = firebaseAuth.authState;
 
     this.user.subscribe(
       (user) => {
-        if (user) {
-          this.userDetails = user;
-          console.log(this.userDetails);
-        }
-        else {
-          this.userDetails = null;
-        }
+        console.log('log user', user);
       }
     );
+
+    this.firebaseAuth.authState.subscribe(res => {
+      if (res && res.uid) {
+        console.log('user is logged in');
+      } else {
+        console.log('user not logged in');
+      }
+    });
+
+    this.firebaseAuth.auth.onAuthStateChanged(res => {
+      console.log('res', res);
+    });
   }
 
   signInWithGoogle() {
     return this.firebaseAuth.auth.signInWithPopup(
       new firebase.auth.GoogleAuthProvider()
-    )
+    );
   }
 
-  isLoggedIn() {
-    if (this.userDetails == null) {
-      return false;
-    } else {
-      return true;
-    }
-  }
+
   logout() {
     this.firebaseAuth.auth.signOut()
-      .then((res) => {});
+      .then((res) => this.router.navigate(['/']));
   }
-
 }

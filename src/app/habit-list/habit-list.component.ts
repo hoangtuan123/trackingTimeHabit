@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase } from 'angularfire2/database';
 import * as moment from 'moment';
 import { AngularFireList } from 'angularfire2/database'
+import { AuthService } from '../shared/service/auth.service';
 
 @Component({
   selector: 'app-habit-list',
@@ -11,6 +12,7 @@ import { AngularFireList } from 'angularfire2/database'
 })
 export class HabitListComponent implements OnInit {
   loggerList: AngularFireList<any>;
+  habitObserveble: Observable<any>;
 
   habitList: Habit[];
   habits: Habit[];
@@ -21,7 +23,7 @@ export class HabitListComponent implements OnInit {
   habitNode: string;
   loggerNode: string;
 
-  constructor(private db: AngularFireDatabase) {
+  constructor(private db: AngularFireDatabase, public authService: AuthService) {
     this.dateNow = new Date();
 
     this.habitNode = "habits";
@@ -42,6 +44,8 @@ export class HabitListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.habitObserveble = this.getDataByNode(this.habitNode);
+
     this.getDataByNode(this.habitNode).subscribe(
       data => { this.habits = data },
       err => { }

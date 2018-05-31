@@ -12,6 +12,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HabitListComponent } from './habit-list/habit-list.component';
 import { AuthService } from './shared/service/auth.service';
 import { FormsModule } from '@angular/forms';
+import { Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
+
+const routes: Routes = [
+  {
+    path: 'habits', component: HabitListComponent
+  }
+]
 
 
 @NgModule({
@@ -26,6 +34,7 @@ import { FormsModule } from '@angular/forms';
     AngularFireAuthModule,
     NgbModule.forRoot(),
     FormsModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
