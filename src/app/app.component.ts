@@ -12,7 +12,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 })
 export class AppComponent {
 
-  constructor(private authService: AuthService
+  constructor(public authService: AuthService
     , private router: Router
     , private db: AngularFireDatabase
   ) {
@@ -21,15 +21,19 @@ export class AppComponent {
 
   signInWithGoogle() {
     this.authService.signInWithGoogle().then(
-      data => {
-        this.router.navigate(['/habits']);
-      },
-      error => {
-        console.log('error promise', error);
-      });
+      data => this.router.navigate(['/habits']),
+      error => this.prccessErrors(error));
   }
 
   logout() {
-    this.authService.logout();
+    this.authService.logout().then(
+      data => {
+        this.router.navigate(['/'])
+      });
+  }
+
+
+  prccessErrors(error) {
+    console.log(error);
   }
 }

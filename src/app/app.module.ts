@@ -14,10 +14,11 @@ import { AuthService } from './shared/service/auth.service';
 import { FormsModule } from '@angular/forms';
 import { Routes } from '@angular/router';
 import { RouterModule } from '@angular/router';
+import { AuthGuard } from './shared/guard/auth.guard';
 
 const routes: Routes = [
   {
-    path: 'habits', component: HabitListComponent
+    path: 'habits', component: HabitListComponent, canActivate: [AuthGuard]
   }
 ]
 
@@ -36,7 +37,7 @@ const routes: Routes = [
     FormsModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [AuthService],
+  providers: [AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -6,7 +6,7 @@
   "apps": [
     {
       "root": "src",
-      "outDir": "dist",
+      "outDir": "../heroku-deploy/timehabit/dist",
       "assets": [
         "assets",
         "favicon.ico"

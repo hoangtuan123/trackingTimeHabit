@@ -1,13 +1,8 @@
-<div *ngIf="authService.user | async as user">
-  {{ user.displayName }}
-</div>
-
-
-<div class="col-12 d-flex justify-content-center">
+<div class="col-12 d-flex justify-content-center" *ngIf="authService.user | async as user">
     <form>
         <div class="form-contol mt-3 align-center">
             <label class="form-label">
-                To Do List {{ dateNow | date : 'yyyy-MM-dd' }}
+                <b>{{ user.displayName }}</b> To Do List {{ dateNow | date : 'yyyy-MM-dd' }}
             </label>
         </div>
         <div class="form-check" *ngFor="let habit of habitList">

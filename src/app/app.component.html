@@ -1,7 +1,13 @@
+<ng-template #content>
+  <button type="button" class="btn btn-block" (click)="signInWithGoogle()">
+    <i class="fa fa-google" aria-hidden="true"></i>
+    Login with Google
+  </button>
+</ng-template>
 
-<button type="button" class="btn btn-block" (click)="signInWithGoogle()">
-  <i class="fa fa-google" aria-hidden="true"></i>
-  Login with Google
+<button type="button" class="btn btn-block" (click)="logout()" *ngIf="(authService.user | async) as user else content">
+  <i class="fa" aria-hidden="true"></i>
+  Logout
 </button>
 
 <router-outlet></router-outlet>
