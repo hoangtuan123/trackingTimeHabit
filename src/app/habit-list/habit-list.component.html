@@ -1,14 +1,40 @@
-<div class="col-12 d-flex justify-content-center" *ngIf="authService.user | async as user">
-    <form>
-        <div class="form-contol mt-3 align-center">
-            <label class="form-label">
-                <b>{{ user.displayName }}</b> To Do List {{ dateNow | date : 'yyyy-MM-dd' }}
-            </label>
+<div class="container" *ngIf="authService.user | async as user">
+    <div class="py-5 text-center">
+        <h2>To do list</h2>
+        <p class="lead">Allways keep habits small for easy to do</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 order-md-2 mb-4">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">Days</span>
+                <span class="badge badge-secondary badge-pill">5</span>
+            </h4>
+            <ul class="list-group mb-3">
+                <li class="list-group-item d-flex justify-content-between lh-condensed" style="cursor: pointer" *ngFor="let day of days" [ngClass]="{'selected-day': day.checked}" (click)="onClickChoiceDay(day)">
+                    <div>
+                        <h6 class="my-0">{{ day.dateString }}</h6>
+                    </div>
+                </li>
+            </ul>
         </div>
-        <div class="form-check" *ngFor="let habit of habitList">
-            <label class="form-check-label">
-                <input class="form-check-input" [checked]="habit.checked" (change)="onChangeModel(habit)" type="checkbox"> {{ habit.value }}
-            </label>
+        <div class="col-md-8 order-md-1">
+            <h4 class="mb-3">Your habits</h4>
+            <form class="needs-validation" novalidate="">
+                <ul class="list-group mb-3">
+                    <li class="list-group-item d-flex justify-content-between lh-condensed" *ngFor="let habit of habitList">
+                        <div>
+                            <h6 class="my-0">
+                                <div class="custom-control custom-checkbox"  (click)="onChangeModel(habit)">
+                                    <input type="checkbox" [checked]="habit.checked" class="custom-control-input">
+                                    <label class="custom-control-label" for="same-address" [ngClass]="{'line-through': habit.checked }">{{ habit.value }}</label>
+                                </div>
+                            </h6>
+                        </div>
+                    </li>
+                </ul>
+            </form>
         </div>
-    </form>
+    </div>
+
 </div>

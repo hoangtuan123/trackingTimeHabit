@@ -1,0 +1,7 @@
+.line-through {
+    text-decoration: line-through;
+}
+.selected-day{
+    background: #6c757d!important;
+    cursor: pointer;
+}
