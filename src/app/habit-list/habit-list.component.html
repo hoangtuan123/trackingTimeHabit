@@ -1,6 +1,6 @@
 <div class="container" *ngIf="authService.user | async as user">
     <div class="py-5 text-center">
-        <h2>To do list</h2>
+        <h2>Habits list</h2>
         <p class="lead">Allways keep habits small for easy to do</p>
     </div>
 
@@ -8,10 +8,11 @@
         <div class="col-md-4 order-md-2 mb-4">
             <h4 class="d-flex justify-content-between align-items-center mb-3">
                 <span class="text-muted">Days</span>
-                <span class="badge badge-secondary badge-pill">5</span>
+                <span class="badge badge-secondary badge-pill">{{ days.length }}</span>
             </h4>
             <ul class="list-group mb-3">
-                <li class="list-group-item d-flex justify-content-between lh-condensed" style="cursor: pointer" *ngFor="let day of days" [ngClass]="{'selected-day': day.checked}" (click)="onClickChoiceDay(day)">
+                <li class="list-group-item d-flex justify-content-between lh-condensed" style="cursor: pointer" *ngFor="let day of days"
+                    [ngClass]="{'text-success': day.checked}" (click)="onClickChoiceDay(day)">
                     <div>
                         <h6 class="my-0">{{ day.dateString }}</h6>
                     </div>
@@ -20,12 +21,20 @@
         </div>
         <div class="col-md-8 order-md-1">
             <h4 class="mb-3">Your habits</h4>
+            <form class="card p-2">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="New habits - Please always keep habits is simple and small" [(ngModel)]="newHabit" id="newHabit" name="newhabit">
+                    <div class="input-group-append">
+                        <button type="submit" (click)="onClickNewHabit()" class="btn btn-secondary">Submit</button>
+                    </div>
+                </div>
+            </form>
             <form class="needs-validation" novalidate="">
                 <ul class="list-group mb-3">
                     <li class="list-group-item d-flex justify-content-between lh-condensed" *ngFor="let habit of habitList">
                         <div>
                             <h6 class="my-0">
-                                <div class="custom-control custom-checkbox"  (click)="onChangeModel(habit)">
+                                <div class="custom-control custom-checkbox" (click)="onChangeModel(habit)">
                                     <input type="checkbox" [checked]="habit.checked" class="custom-control-input">
                                     <label class="custom-control-label" for="same-address" [ngClass]="{'line-through': habit.checked }">{{ habit.value }}</label>
                                 </div>

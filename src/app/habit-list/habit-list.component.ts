@@ -23,8 +23,10 @@ export class HabitListComponent implements OnInit {
   habitNode: string;
   loggerNode: string;
 
-  days: any [] = [];
+  days: any[] = [];
   FORMAT_DATE = "YYYYMMDD";
+
+  newHabit: string;
 
   constructor(private db: AngularFireDatabase, public authService: AuthService) {
     this.dateNow = new Date();
@@ -33,7 +35,7 @@ export class HabitListComponent implements OnInit {
     this.loggerNode = "loggers";
 
     this.daySelected = moment(this.dateNow).format(this.FORMAT_DATE);
-    for(const item of [0,1,2,3,4,5,6,7]){
+    for (const item of [0, 1, 2, 3, 4, 5, 6]) {
       const date = moment(this.dateNow).subtract(item, 'days');
       this.days.push({
         date,
@@ -44,7 +46,7 @@ export class HabitListComponent implements OnInit {
     }
   }
 
-  getLoggerList(day){
+  getLoggerList(day) {
     this.loggerList = this.db.list(this.loggerNode + '/' + day);
 
     this.habitObserveble = this.getDataByNode(this.habitNode);
@@ -65,11 +67,28 @@ export class HabitListComponent implements OnInit {
     this.db.list(this.loggerNode).set(this.daySelected, this.habitList);
   }
 
-  onClickChoiceDay(day){
+  onClickChoiceDay(day) {
     this.days.forEach(item => item.checked = false);
     day.checked = true;
     this.daySelected = day.dateFormat;
     this.getLoggerList(day.dateFormat);
+  }
+
+  onClickNewHabit() {
+    if(!this.newHabit) return;
+    const keys = this.habits.map(item => item.key).sort((a, b) => a - b);
+    const newKey = keys && keys.length ? (keys[keys.length - 1] + 1) : 1;
+    const obj: Habit = {
+      key: newKey,
+      value: this.newHabit
+    }
+    let data = {};
+    data[newKey.toString()] = obj;
+    
+    this.db.object(this.habitNode).update(data);
+    this.habitList.push(obj);
+    this.db.list(this.loggerNode).set(this.daySelected, this.habitList);
+    this.newHabit = "";
   }
 
   ngOnInit() {
@@ -97,7 +116,7 @@ export class HabitListComponent implements OnInit {
 
 
 interface Habit {
-  key: string;
+  key: number;
   value: string;
-  checked: boolean;
+  checked?: boolean;
 }

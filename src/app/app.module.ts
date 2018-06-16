@@ -15,10 +15,14 @@ import { FormsModule } from '@angular/forms';
 import { Routes } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { AuthGuard } from './shared/guard/auth.guard';
+import { WordListComponent } from './word-list/word-list.component';
 
 const routes: Routes = [
   {
-    path: 'habits', component: HabitListComponent, canActivate: [AuthGuard]
+    path: 'habits', component: HabitListComponent, canActivate: [AuthGuard],
+  },
+  {
+    path: 'words', component: WordListComponent, canActivate: [AuthGuard],
   }
 ]
 
@@ -26,7 +30,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    HabitListComponent
+    HabitListComponent,
+    WordListComponent
   ],
   imports: [
     BrowserModule,

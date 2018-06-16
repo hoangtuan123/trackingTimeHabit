@@ -5,9 +5,28 @@
   </button>
 </ng-template>
 
-<button type="button" class="btn btn-block" (click)="logout()" *ngIf="(authService.user | async) as user else content">
-  <i class="fa" aria-hidden="true"></i>
-  Logout
-</button>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="(authService.user | async) as user else content">
+  <div class="container">
+    <a class="navbar-brand" href="#">Hi {{ user.displayName }}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample07" aria-controls="navbarsExample07"
+      (click)="isCollapsed = !isCollapsed"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" [ngbCollapse]="isCollapsed" id="navbarsExample07">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item" [ngClass]="{'active': currentRouter == '/habits'}">
+          <a class="nav-link" [routerLink]="['habits']">Habits</a>
+        </li>
+        <li class="nav-item" [ngClass]="{'active': currentRouter == '/words'}">
+          <a class="nav-link" [routerLink]="['words']">Words</a>
+        </li>
+      </ul>
+      <div class="form-inline my-2 my-md-0">
+        <a href="#" (click)="logout()">Logout</a>
+      </div>
+    </div>
+  </div>
+</nav>
 
 <router-outlet></router-outlet>

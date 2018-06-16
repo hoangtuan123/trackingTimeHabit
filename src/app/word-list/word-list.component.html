@@ -1,0 +1,34 @@
+<div class="container" *ngIf="authService.user | async as user">
+    <div class="py-5 text-center">
+        <h2>Words</h2>
+        <p class="lead">Should be remember</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 order-md-1">
+            <h4 class="mb-3">New English word</h4>
+            <form class="card p-2">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Keep word in my heart" [(ngModel)]="newWord" id="newWord" name="newWord">
+                    <div class="input-group-append">
+                        <button type="submit" (click)="onClickNewWord()" class="btn btn-secondary">Submit</button>
+                    </div>
+                </div>
+            </form>
+            <form class="needs-validation" novalidate="">
+                <ul class="list-group mb-3">
+                    <li class="list-group-item d-flex justify-content-between lh-condensed" *ngFor="let word of wordObserveble | async">
+                        <div>
+                            <h6 class="my-0">
+                                <div class="custom-control custom-checkbox">
+                                    <label class="custom-control-label" for="same-address">{{ word }}</label>
+                                </div>
+                            </h6>
+                        </div>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+
+</div>

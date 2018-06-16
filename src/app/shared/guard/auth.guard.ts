@@ -3,17 +3,21 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angul
 import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../service/auth.service';
 import { tap, map, take } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-  constructor(private auth: AuthService){
+  constructor(private auth: AuthService) {
 
   }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return this.auth.isLogin();
+    if (environment.production)
+      return this.auth.isLogin();
+    else
+      return true;
   }
 }

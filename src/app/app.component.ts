@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from './shared/service/auth.service';
 import { auth } from 'firebase/app';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FirebaseApp } from 'angularfire2';
 import { AngularFireDatabase } from 'angularfire2/database';
 
@@ -11,12 +11,15 @@ import { AngularFireDatabase } from 'angularfire2/database';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  currentRouter: string = "";
+  public isCollapsed = true;
 
   constructor(public authService: AuthService
     , private router: Router
     , private db: AngularFireDatabase
+    , private route: ActivatedRoute
   ) {
-
+    this.router.events.subscribe((data: any) => this.currentRouter = data.url);
   }
 
   signInWithGoogle() {
