@@ -17,7 +17,7 @@
             </form>
             <form class="needs-validation" novalidate="">
                 <ul class="list-group mb-3">
-                    <li class="list-group-item d-flex justify-content-between lh-condensed" *ngFor="let word of wordObserveble | async">
+                    <li class="list-group-item d-flex justify-content-between lh-condensed" *ngFor="let word of (wordObserveble | async)?.slice().reverse()">
                         <div>
                             <h6 class="my-0">
                                 <div class="custom-control custom-checkbox">

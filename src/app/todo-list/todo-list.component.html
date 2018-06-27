@@ -1,0 +1,39 @@
+<div class="container" *ngIf="authService.user | async as user">
+  <div class="py-5 text-center">
+    <h2>To do List</h2>
+    <p class="lead">Should to do</p>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 order-md-1">
+      <h4 class="mb-3">Keep mind always clean</h4>
+      <form class="card p-2">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Keep trust in my heart" [(ngModel)]="todoInput" id="todoInput" name="todoInput">
+          <div class="input-group-append">
+            <button type="submit" (click)="clickAddTodo()" class="btn btn-secondary">Submit</button>
+          </div>
+        </div>
+      </form>
+      <form class="needs-validation" novalidate="">
+        <ul class="list-group mb-3">
+          <li class="list-group-item d-flex justify-content-between lh-condensed" *ngFor="let todo of (todoListObservable | async)?.slice().reverse()">
+            <div>
+              <h6 class="my-0">
+                <div class="custom-control custom-checkbox" (click)="clickUpdateTodo(todo.key, todo)">
+                  <input type="checkbox" [checked]="todo.checked" class="custom-control-input">
+                  <label class="custom-control-label" for="same-address" [ngClass]="{'line-through': todo.checked}">{{ todo.value }}</label>
+                </div>
+                
+              </h6>
+            </div>
+            <button type="button" class="float-right close" aria-label="Close" (click)="clickRemoveTodo(todo.key)">
+                <span aria-hidden="true">&times;</span>
+              </button>
+          </li>
+        </ul>
+      </form>
+    </div>
+  </div>
+
+</div>

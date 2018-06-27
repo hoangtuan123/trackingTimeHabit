@@ -31,7 +31,6 @@ export class WordListComponent implements OnInit {
 
   getNewWordList(){
     this.wordObserveble = this.db.list(this.wordNode).valueChanges();
-    console.log(this.wordObserveble);
   }
 
 

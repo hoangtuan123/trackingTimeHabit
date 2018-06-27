@@ -16,6 +16,7 @@ import { Routes } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { AuthGuard } from './shared/guard/auth.guard';
 import { WordListComponent } from './word-list/word-list.component';
+import { TodoListComponent } from './todo-list/todo-list.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,9 @@ const routes: Routes = [
   },
   {
     path: 'words', component: WordListComponent, canActivate: [AuthGuard],
+  },
+  {
+    path: 'todos', component: TodoListComponent, canActivate: [AuthGuard],
   }
 ]
 
@@ -31,7 +35,8 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     HabitListComponent,
-    WordListComponent
+    WordListComponent,
+    TodoListComponent
   ],
   imports: [
     BrowserModule,
