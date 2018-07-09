@@ -17,6 +17,7 @@ import { RouterModule } from '@angular/router';
 import { AuthGuard } from './shared/guard/auth.guard';
 import { WordListComponent } from './word-list/word-list.component';
 import { TodoListComponent } from './todo-list/todo-list.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const routes: Routes = [
   {
@@ -27,7 +28,12 @@ const routes: Routes = [
   },
   {
     path: 'todos', component: TodoListComponent, canActivate: [AuthGuard],
-  }
+  },
+  { path: '',
+    redirectTo: '/habits',
+    pathMatch: 'full'
+  },
+  { path: '**', component: PageNotFoundComponent }
 ]
 
 
@@ -36,7 +42,8 @@ const routes: Routes = [
     AppComponent,
     HabitListComponent,
     WordListComponent,
-    TodoListComponent
+    TodoListComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

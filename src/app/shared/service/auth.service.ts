@@ -37,6 +37,11 @@ export class AuthService {
   }
 
   isLogin() {
-    return this.userDetails ? true : false;
+    return this.user.map((userDetail) => {
+      if (userDetail)
+        return true;
+      else
+        return false;
+    });
   }
 }

@@ -15,14 +15,30 @@ export class TodoListComponent implements OnInit {
   todoListObservable: Observable<any>;
   todoListRef: AngularFireList<any>;
   todoInput: string;
-
-
+  fromDate: string;
+  toDate:string;
+  priorityTodo: string;
+  
+  
   constructor(private db: AngularFireDatabase
     , public authService: AuthService
   ) {
     this.todoNode = "todos";
     this.todoInput = "";
     this.todoListRef = db.list(this.todoNode, ref => ref.orderByKey());
+  }
+
+  clickAddPriority(value){
+    this.priorityTodo = value;
+  }
+
+  getTimeNow(){
+    return new Date().getTime();
+  }
+
+  viewPercentProgessBar(todo){
+    const rs = (this.getTimeNow() - todo.fromdateTime) / (todo.todateTime - todo.fromdateTime);
+    return Math.floor(rs * 100);
   }
 
   ngOnInit() {
@@ -38,9 +54,21 @@ export class TodoListComponent implements OnInit {
   }
 
   addNewTodo(){
-    const obj = { value: this.todoInput, checked: false };
+    const obj = { 
+      value: this.todoInput, 
+      checked: false, 
+      fromdate: this.fromDate, 
+      todate: this.toDate, 
+      fromdateTime: this.getTime(this.fromDate), 
+      todateTime: this.getTime(this.toDate) ,
+      priorityTodo: this.priorityTodo
+    };
     this.todoListRef.push(obj);
     this.todoInput = "";
+  }
+
+  getTime(date){
+    return new Date(date.year + '-' + date.month + '-' + date.day).getTime();
   }
 
   updateTodo(key, todo){
@@ -53,7 +81,7 @@ export class TodoListComponent implements OnInit {
   }
 
   clickAddTodo(){
-    if(this.todoInput)
+    if(this.todoInput && this.fromDate && this.toDate && this.priorityTodo)
       this.addNewTodo();
   }
 

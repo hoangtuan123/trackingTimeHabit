@@ -9,28 +9,69 @@
       <h4 class="mb-3">Keep mind always clean</h4>
       <form class="card p-2">
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="Keep trust in my heart" [(ngModel)]="todoInput" id="todoInput" name="todoInput">
-          <div class="input-group-append">
+          <div class="col-md-5">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Keep trust in my heart" [(ngModel)]="todoInput" id="todoInput" name="todoInput">
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="input-group">
+              <input class="form-control" placeholder="Form date" name="dp" [(ngModel)]="fromDate" ngbDatepicker #d="ngbDatepicker">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                  <img src="../../assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="input-group">
+              <input class="form-control" placeholder="To date" name="dp" [(ngModel)]="toDate" ngbDatepicker #f="ngbDatepicker">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" (click)="f.toggle()" type="button">
+                  <img src="../../assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1">
             <button type="submit" (click)="clickAddTodo()" class="btn btn-secondary">Submit</button>
+          </div>
+          <div class="col-md-3">
+            <button type="button" (click)="clickAddPriority('primary')" class="btn btn-primary" [ngClass]="{ 'active': priorityTodo == 'primary' }"></button>
+            <button type="button" (click)="clickAddPriority('success')" class="btn btn-success" [ngClass]="{ 'active': priorityTodo == 'success' }"></button>
+            <button type="button" (click)="clickAddPriority('danger')" class="btn btn-danger" [ngClass]="{ 'active': priorityTodo == 'danger' }"></button>
+            <button type="button" (click)="clickAddPriority('warning')" class="btn btn-warning" [ngClass]="{ 'active': priorityTodo == 'warning' }"></button>
+            <button type="button" (click)="clickAddPriority('info')" class="btn btn-info" [ngClass]="{ 'active': priorityTodo == 'info' }"></button>
+          </div>
+          <div class="col-md-12">
+            <ngb-progressbar type="{{priorityTodo}}" [value]="100"></ngb-progressbar>
           </div>
         </div>
       </form>
       <form class="needs-validation" novalidate="">
         <ul class="list-group mb-3">
-          <li class="list-group-item d-flex justify-content-between lh-condensed" *ngFor="let todo of (todoListObservable | async)?.slice().reverse()">
-            <div>
-              <h6 class="my-0">
-                <div class="custom-control custom-checkbox" (click)="clickUpdateTodo(todo.key, todo)">
-                  <input type="checkbox" [checked]="todo.checked" class="custom-control-input">
-                  <label class="custom-control-label" for="same-address" [ngClass]="{'line-through': todo.checked}">{{ todo.value }}</label>
-                </div>
-                
-              </h6>
-            </div>
-            <button type="button" class="float-right close" aria-label="Close" (click)="clickRemoveTodo(todo.key)">
+          <div *ngFor="let todo of (todoListObservable | async)?.slice().reverse()">
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+              <div>
+                <h6 class="my-0">
+                  <div class="custom-control custom-checkbox" (click)="clickUpdateTodo(todo.key, todo)">
+                    <input type="checkbox" [checked]="todo.checked" class="custom-control-input">
+                    <label class="custom-control-label" for="same-address" [ngClass]="{'line-through': todo.checked}">
+                      {{ todo.value }} {{ todo.fromdate ? ( '(' + todo.fromdate.day + '/' + todo.fromdate.month + '/' + todo.fromdate.year + '-'
+                      + todo.todate.day + '/' + todo.todate.month + '/' + todo.todate.year + ')' ) : '' }}
+                      <button
+                        type="button" class="btn btn-{{todo.priorityTodo}}"></button>
+                    </label>
+                  </div>
+                </h6>
+              </div>
+              <button type="button" class="float-right close" aria-label="Close" (click)="clickRemoveTodo(todo.key)">
                 <span aria-hidden="true">&times;</span>
               </button>
-          </li>
+            </li>
+            <ngb-progressbar *ngIf="todo.fromdate && getTimeNow() >= todo.fromdateTime" showValue="true" type="success" [value]="viewPercentProgessBar(todo)"></ngb-progressbar>
+          </div>
         </ul>
       </form>
     </div>
